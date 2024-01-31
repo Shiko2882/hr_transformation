@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %} 
+{% block title %} Inputs Answer Form {% endblock %}
+{% block content %}
+    <br/>
+
+    <h2 class="mb-12 text-2xl text-center font-bold text-blue-600">
+        <i class="fas fa-chart-bar"></i> Companies
+    </h2>
+<br>
+<br>
+    <div class="container">
+        <div class="row">
+            <div class="table-responsive">
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ID</th>
+                            <th>Company Name</th>
+                            <th>Consultant</th>
+                            <th>Industry</th>
+                            <th>Head Count</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for company in companies %}
+                        <tr onclick="window.location='{% url 'Company_Profile' company.id %}';" style="cursor: pointer;">
+                            <td><img src="{{ company.logo.url }}" class="img-thumbnail" height="30" width="100"></td>
+                            <td>{{ company.id }}</td>
+                            <td>{{ company.name }}</td>	
+                            <td>{{ company.consultant }}</td>	
+                            <td>{{ company.industry }}</td>	
+                            <td>{{ company.headcount }}</td> 
+                            <td><i class="fa fa-toggle-on" aria-hidden="true"></i></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchButton").addEventListener("click", function() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementsByTagName("table")[0];
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2]; // Change the index to the column you want to search
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

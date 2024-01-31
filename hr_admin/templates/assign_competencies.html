@@ -1,0 +1,55 @@
+<!-- assign_competencies.html -->
+{% extends 'base.html' %} 
+
+{% block content %}
+    
+<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Competencies to {{ company.name }}</title>
+</head>
+<body>
+
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="competencies">KPIs List:</label>
+        <select name="competencies" multiple>
+            {% for competency in available_competencies %}
+                <option value="{{ competency.id }}">{{ competency.name }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <input type="submit" value="Assign Competencies">
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <h1>Assign KPIs to {{ companyid.name }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competency in assigned_competencies %}
+                <tr>
+                    <td>{{ competency.id }}</td>
+                    <td>{{ competency.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+{% endblock %}

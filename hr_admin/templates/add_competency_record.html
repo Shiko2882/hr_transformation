@@ -1,0 +1,51 @@
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% block content %}
+    
+<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+<br>
+<br>
+<br>
+    <title>Add Competency Record</title>
+
+    <h1>Add Competency Record</h1>
+    <br>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form | crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <h2>Competency Records</h2>
+    <br>
+    <br>
+    <br>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Competency</th>
+                    <th>Date</th>
+                    <th>Achieved Number</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in competency_records %}
+                    <tr>
+                        <td>{{ record.competency.name }}</td>
+                        <td>{{ record.date }}</td>
+                        <td>{{ record.achieved_number }}</td>
+                        <td>{{ record.notes }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

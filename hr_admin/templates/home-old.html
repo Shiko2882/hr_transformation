@@ -1,0 +1,87 @@
+<!-- FILEPATH: /e:/Interface/Diagnostic tool/HR-Transformation-App2/hr_transformation - 07-12-2023 10-27 - Copy/hr_admin/templates/home.html -->
+{% extends 'base.html' %} 
+
+{% block content %}
+    <br/>
+
+    <h2 class="mb-12 text-2xl text-center font-bold text-blue-600">
+        <i class="fas fa-chart-bar"></i> Dashboard
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <div class="p-10 bg-gray-100 rounded-xl mt-6">
+            <h1 class="mb-6 text-1xl text-blue-600">
+                <i class="fas fa-building"></i> Last Companies
+            </h1>
+            <div class="flex flex-wrap">
+                {% for company in companies %}
+                    <div class="w-1/4 p-2">
+                        <a href="{% url 'Company Profile' company.id %}">
+                            <div>
+                                <br>
+                                <img src="{{ company.logo.url }}" class="rounded-t-xl" height="80" width="140">
+                            </div>
+                                
+                            <div class="p-2 bg-white rounded-b-1xl">
+                                <h2>{{ company.name }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="/view_companies">
+                <i class="fas fa-arrow-right" style="float: right;"></i>
+            </a>
+        </div>
+
+        <div class="p-10 bg-gray-100 rounded-xl mt-6">
+            <h1 class="mb-6 text-1xl text-blue-600">
+                <i class="fas fa-user-plus"></i> Last Added Consultants
+            </h1>
+            <div class="flex flex-wrap">
+                {% for consultant in consultants %}
+                    <div class="w-1/4 p-2">
+                        <a href="{% url 'Consultant Profile' consultant.user_id %}">
+                            <div class="p-2 bg-blue-500 rounded-b-1xl">
+                                <h2>{{ consultant.name }}</h2>
+                            </div>
+                                
+                            <div class="p-2 bg-white rounded-b-1xl">
+                                <h2>Phone: {{ consultant.phone }}</h2>
+                            </div>
+
+                            <div class="p-2 bg-white rounded-b-1xl">
+                                <h2>Join: {{ consultant.user.date_joined|date:"F Y" }}</h2>
+                            </div>
+                            <br>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="/view_consultants">
+                <i class="fas fa-arrow-right" style="float: right;"></i>
+            </a>
+        </div>
+
+        <div class="p-10 bg-gray-100 rounded-xl mt-6">
+            <h2 class="text-blue-600">
+                <i class="fas fa-rocket"></i> Your HR Transformation journey started
+            </h2>
+            <p>1- Please complete your company background data 
+                <br/>2- Fill the needed inputs and submit to start diagnosing </p>
+            <br/>
+            <p><a class="btn btn-secondary" href="/companies" role="button">Start &raquo;</a></p>
+        </div>
+
+        <div class="p-10 bg-gray-100 rounded-xl mt-6">
+            <h2 class="text-blue-600">
+                <i class="fas fa-user"></i> Consultant profile
+            </h2>
+            <p>Full Name: {{ user.full_name }}
+                <br/> Email: {{ user.email }}
+                <br/> Phone: {{ user.phone }}
+            </p>
+            <p><a class="btn btn-secondary" href="#" role="button">More &raquo;</a></p>
+        </div>
+    </div>
+{% endblock %}

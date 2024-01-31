@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ company.name }} Attachments{% endblock %}
+
+{% block content %}
+
+
+
+
+  <!-- Upload new attachment form -->
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Upload Attachment</button>
+  </form>
+<br>
+<br><br><br> 
+    <div class="attachment-block">
+    <h2>{{ company.name }} Attachments</h2>
+    <p>Company ID: {{ company.id }}</p>
+    <p>Attachments Count: {{ attachments.count }}</p>
+
+    <!-- Display existing attachments -->
+    {% if attachments %}
+        <ul>
+            {% for attachment in attachments %}
+                <li>
+                    <p>{{ attachment.file.name }} - {{ attachment.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No attachments available.</p>
+    {% endif %}
+</div>
+{% endblock %}

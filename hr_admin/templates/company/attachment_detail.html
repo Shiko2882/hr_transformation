@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Attachment Detail{% endblock %}
+
+{% block content %}
+<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+<br>
+<br>
+    <h1>Attachment Details</h1>
+    <br><br>
+    <!-- Display attachment details -->
+    <p><strong>File Name:</strong> {{ attachment.file.name }}</p>
+    <p><strong>Description:</strong> {{ attachment.description }}</p>
+    <p><strong>Uploaded By:</strong> {{ attachment.created_by.username }}</p>
+    <p><strong>Upload Date:</strong> {{ attachment.uploaded_at }}</p>
+    <br><br>
+    <!-- File preview for images -->
+    {% if attachment.file.name|lower|slice:'-4:' == '.png' or attachment.file.name|lower|slice:'-4:' == '.jpg' or attachment.file.name|lower|slice:'-5:' == '.jpeg' or attachment.file.name|lower|slice:'-4:' == '.gif' %}
+        <img src="{{ attachment.file.url }}" alt="{{ attachment.description }}" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+    <!-- File preview for PDFs -->
+    {% if attachment.file.name|lower|slice:'-4:' == '.pdf' %}
+        <embed src="{{ attachment.file.url }}" type="application/pdf" width="100%" height="600px">
+    {% endif %}
+
+    <!-- Link to download the attachment file -->
+    <p><a href="{{ attachment.file.url }}" download>Download Attachment</a></p>
+
+    <!-- Add any other details you want to display -->
+
+    <!-- Add a link to go back to the company attachments page -->
+
+{% endblock %}

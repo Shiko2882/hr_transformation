@@ -1,0 +1,30 @@
+
+<!-- Compare this snippet from hr_admin/templates/consultant/fill_inputs_form.html: -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %} 
+{% block title %} Inputs Answer Form {% endblock %}
+{% block content %}
+<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+<br>
+<br>
+<!--<h1>{{ companyid.company_name }}</h1>--->
+<div class="container">
+    <div class="row">
+        <div class="row-md-8 col-md-8 col-md-offset-2">
+            <h1>Company Evaluation Form</h1>
+            <br>
+            <br>
+            <form method="post" action="{% url 'fill_evaluation_form_with_pk' pk %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <br>    
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

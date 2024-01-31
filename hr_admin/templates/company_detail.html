@@ -1,0 +1,43 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Competency</th>
+                <th>Date</th>
+                <th>Achieved Number</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in competency_records %}
+                {% if forloop.counter0|divisibleby:10 %}
+                    {% if forloop.counter0 != 0 %}
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <a href="#">Previous</a>
+                        <a href="#">Next</a>
+                    </div>
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Competency</th>
+                            <th>Date</th>
+                            <th>Achieved Number</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% endif %}
+                {% endif %}
+                <tr>
+                    <td>{{ record.competency.name }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.achieved_number }}</td>
+                    <td>{{ record.notes }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+

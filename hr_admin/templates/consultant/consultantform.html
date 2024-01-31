@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+<div class="card card-body">
+    <h5> Company Profile </h5>
+    
+</div>
+<br>
+<form action="" method="POST">
+    {% csrf_token %}
+    
+    <table >
+        {% for field in form %}
+        <tbody>
+        <tr>
+          <td>
+            <label for="{{ form.label }}" style="display:inline-block;vertical-align:middle">{{ field.label_tag }}</label>
+          </td>
+          <td>
+            {{ field }}
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    <input type="submit" name="Submit" >
+</form>
+{% endblock content %}

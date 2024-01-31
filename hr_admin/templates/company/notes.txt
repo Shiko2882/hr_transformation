@@ -1,0 +1,20 @@
+def updatecompany(request,pk):
+    
+    company = Company.objects.get(id=pk)
+    form =CompanyViewFormUpdate(instance=company)
+    if request.method == 'POST':
+        form = CompanyViewFormUpdate(request.POST,instance=company)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    
+    context= {'form':form ,'company': company}
+    return render(request,'company/companyform.html', context)
+
+
+def companyprofile(request,pk):
+    companyid= Company.objects.get(id=pk)
+    
+    context = {"companyid":companyid }
+    return render(request, "company/companyprofile.html",context)
+
