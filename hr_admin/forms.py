@@ -43,7 +43,10 @@ class AttachmentForm(forms.ModelForm):
         model = Attachment
         fields = ['file', 'description']
 
-
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'avatar']
 
 class InputsAnswerForm(forms.ModelForm):
     YES_CHOICES = [

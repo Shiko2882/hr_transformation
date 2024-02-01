@@ -40,6 +40,11 @@
                 <th>{{ consultant.phone }}</th>	
                 <th>{{ consultant.employees }}</th>
                 <th>{{ consultant.status }}</th>
+                <th>
+                    <a href="{% url 'Update_consultant' consultant.user_id %}">
+                        <button class="btn btn-sm btn-primary">Edit</button>
+                    </a>
+                </th>
             </tr>
             {% endfor %}
         </table>

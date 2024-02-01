@@ -19,18 +19,22 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Company, InputsCategory, InputsQuestion, InputsAnswer
 from .forms import InputsAnswerForm
+from .decorators import group_required
 
-def group_required(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
-    def decorator(view_func):
-        @login_required
-        def _wrapped_view(request, *args, **kwargs):
-            if bool(request.user.groups.filter(name__in=group_names)) | request.user.is_superuser:
-                return view_func(request, *args, **kwargs)
-            else:
-                return redirect('login')  # or your URL for the login view
-        return _wrapped_view
-    return decorator
+
+
+@group_required(groups=['Administrator'])
+def admin_view(request):
+    return render(request, 'user/permission/admin_view.html', {'user': request.user})
+
+@group_required(groups=['Company'])
+def company_view(request):
+    return render(request, 'user/permission/company_view.html', {'user': request.user})
+
+@group_required(groups=['Consultant'])
+def consultant_view(request):
+    return render(request, 'user/permission/consultant_view.html', {'user': request.user})
+
 
 
 
@@ -42,11 +46,24 @@ class CustomLoginView(LoginView):
         messages.success(self.request, 'Welcome!')
         return response
 
-
+@login_required
 def CustomLogoutView(request):
     logout(request)
     return HttpResponseRedirect(reverse('home')) 
 
+@login_required
+def profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'user/profile.html', {'form': form})
 
 
 def dashboard(request):
@@ -90,6 +107,16 @@ def attachment_detail(request, attachment_id):
 # views.py
 
 def fill_inputs_form(request, pk=None):
+    """
+    Renders a form for filling inputs and saves the answers to the database.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        pk (int, optional): The primary key of the company. Defaults to None.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+    """
     try:
         company = Company.objects.get(id=pk, user=request.user)
     except Company.DoesNotExist:
@@ -211,7 +238,7 @@ def createcompany(request):
             return redirect("/")
     
     context= {'form':form}
-    return render(request,'company/companyform.html', context)
+    return render(request,'company/company_create.html', context)
 
 def updatecompany(request,pk):
     
@@ -237,7 +264,23 @@ def companyprofile(request,pk):
     context = {"companyid":companyid, "attachments":attachments , "competencies":competencies , "competency_records":competency_records , "available_competencies":available_competencies} 
     return render(request, "company/companyprofile.html",context)
 
-
+def my_company_profile(request):
+    user = request.user
+    company = Company.objects.filter(user=user).first()
+    attachments = company.company_attachments.all()
+    competencies = company.company_attachments.all()
+    competency_records = company.competency_records.all()
+    available_competencies = company.competencies.all()
+    form = CompetencyRecordForm(company)
+    context = {
+        "company": company,
+        "attachments": attachments,
+        "competencies": competencies,
+        "competency_records": competency_records,
+        "available_competencies": available_competencies,
+        "companyid":company
+    }
+    return render(request, "company/mycompanyprofile.html", context)
 # a view to view/create/update consultants data #
 
 def view_consultants(request):
@@ -256,18 +299,19 @@ def createconsultant(request):
     context= {'form':form}
     return render(request,'consultant/consultantform.html', context)
 
-def updateconsultant(request,pk):
+def updateconsultant(request, pk):
+    consultant = Consultant.objects.get(user=pk)
     
-    company = Consultant.objects.get(id=pk)
-    form =ConsultantViewForm(instance=Consultant)
     if request.method == 'POST':
-        form = ConsultantViewForm(request.POST,instance=Consultant)
+        form = ConsultantViewForm(request.POST, instance=consultant)
         if form.is_valid():
             form.save()
             return redirect("/")
+    else:
+        form = ConsultantViewForm(instance=consultant)
     
-    context= {'form':form}
-    return render(request,'consultant/consultantform.html', context)
+    context = {'form': form, 'consultantid': consultant}
+    return render(request, 'consultant/consultantform.html', context)
 
 
 def consultantprofile(request,pk):
@@ -363,3 +407,39 @@ def admin_password_change(request, user_id):
     else:
         form = AdminPasswordChangeForm(user)
     return render(request, 'user/admin_password_change.html', {'form': form})
+
+
+
+# testing new way to render questions to the model 
+def start_survey(request, company_id):
+    company = get_object_or_404(Company, pk=company_id)
+    
+    # Assuming you have a specific form for this survey
+    survey_form = InputsForm.objects.get(name="Your Survey Form Name")
+
+    # Fetch all questions related to the survey form
+    survey_questions = InputsQuestion.objects.filter(category__InputsForm=survey_form)
+
+    # Insert survey questions into the Response table for the company
+    for question in survey_questions:
+        InputsAnswer.objects.create(company=company, question=question, is_draft=True)
+
+    return redirect('survey_form', company_id=company.id)
+def survey_form(request, company_id):
+    company = get_object_or_404(Company, pk=company_id)
+    
+    # Fetch all answers related to the company and survey questions
+    company_answers = InputsAnswer.objects.filter(company=company, is_draft=True).order_by('question__category')
+    survey_form = company.companyinputs
+    categories = InputsCategory.objects.filter(InputsForm=survey_form)
+    if request.method == 'POST':
+        # Handle form submission and update the Responses
+        for answer in company_answers:
+            answer.answer = request.POST.get(f"answer_{answer.id}")
+            answer.notes = request.POST.get(f"notes_{answer.id}")
+            answer.is_draft = False
+            answer.save()
+
+        return redirect('thank_you_page')  # Redirect to a thank-you page or any desired destination
+
+    return render(request, 'survey/survey_form.html', {'company': company, 'company_answers': company_answers, 'categories': categories})

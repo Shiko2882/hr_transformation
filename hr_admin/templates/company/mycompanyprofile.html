@@ -4,7 +4,7 @@
 
 {% block content %}
     
-<button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
+
 
 <br>
     <div class="row">   
@@ -161,59 +161,7 @@
                 </div>
                 <div class="tab-pane fade" id="tab2">
                     <br>
-                    <div class="col-lg-12">
-
-                        <!-- Dropdown Card Example -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-line"></i> Company KPIs</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                        aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Actions:</div>
-                                        <a class="dropdown-item" href="{% url 'assign_competencies' companyid.id %}">Assign new KPI</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{% url 'company_detail' companyid.id %}">View All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                            {% if available_competencies %}
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for competency in available_competencies %}
-                                                <tr>
-                                                    <td>{{ competency.name }}</td>
-                                                    <td title="{{ competency.description }}">{{ competency.description|slice:":120" }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            {% else %}
-                                <p>No KPIs assigned yet.</p>
-                                <a href="{% url 'assign_competencies' companyid.id %}"><span class="fa fa-plus-circle"></span> Add KPI</a>
-                            {% endif %}
-                            </div>
-                        </div>
-                    </div>
-
                 <!-- KPIs Tracker Card -->
-
                     <div class="col-lg-12">
 
                         <!-- Dropdown Card Example -->

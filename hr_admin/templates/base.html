@@ -41,14 +41,23 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+            {% if request.user.is_authenticated %}
 
-            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'Administrator' %}
+                    {% elif group.name == 'Company' %}
+            <li class="nav-item ">
+                <a class="nav-link" href="/my-company-profile">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>My Company Profile</span></a>
+            </li>
+                    {% elif group.name == 'Administrator' or group.name == 'Consultant' %}
+    <!-- Nav Item - Dashboard -->
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -57,6 +66,7 @@
                 Setup
             </div>
             <!-- Nav Item - Users Menu -->
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseuser"
                     aria-expanded="true" aria-controls="collapseuser">
@@ -82,7 +92,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
 
                         <a class="collapse-item" href="/view_companies">Companies List</a>
-                        <a class="collapse-item" href="/view_companies">Add New Company</a>
+                        <a class="collapse-item" href="/createcompany">Add New Company</a>
                     </div>
                 </div>
             </li>
@@ -99,7 +109,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="/view_consultants">Consultants List</a>
-                        <a class="collapse-item" href="/view_consultants">Add new consultant</a>
+                        <a class="collapse-item" href="/add_user">Add new consultant</a>
                     </div>
                 </div>
             </li>
@@ -111,40 +121,28 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-
+                {% endif %}
+            {% endfor %}
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Reports</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="{% url 'login' %}">Login</a>
-                        <a class="collapse-item" href="#">Forgot Password</a>
+                        <h6 class="collapse-header">Company Reports:</h6>
+                        <a class="collapse-item" href="#">Main Report</a>
+                        <a class="collapse-item" href="#">Detailed Report</a>
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <h6 class="collapse-header">Diagnose Reports:</h6>
+                        <a class="collapse-item" href="#">Diagnsing status Report</a>
+                        <a class="collapse-item" href="#">Diagnosing detailed report</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -160,7 +158,13 @@
                 <p class="text-center mb-2"><strong>Progress</strong></p>
                 <a class="btn btn-success btn-sm" href="#">Start journey</a>
             </div>
-
+            {% else %}
+            <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="{% static 'template/img/undraw_rocket.svg' %}" alt="...">
+                <p class="text-center mb-2"><strong></strong></p>
+                <a class="btn btn-primary btn-sm" href="#">Login</a>
+            </div>
+            {% endif %}
         </ul>
         <!-- End of Sidebar -->
 
@@ -171,6 +175,7 @@
             <div id="content">
 
                 <!-- Topbar -->
+                {% if request.user.is_authenticated %}
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -193,6 +198,7 @@
                     </form>
 
                     <!-- Topbar Navbar -->
+                    
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -349,7 +355,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/profile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -370,52 +376,53 @@
                         </li>
 
                     </ul>
-
                 </nav>
+                {% else %}
+                {% endif %}
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Content Row -->
+                    {% if request.user.is_authenticated %}
+                    <!-- Content for authenticated users -->
                     <div id="content">
-                        {% if request.user.is_authenticated %}
-                            {% block content %}
-                            {% endblock %}
-                        {% else %}
-                        <div class="row">
-                            <div class="col-lg-5 d-none d-lg-block">
-                                <img src="{% static 'template/Logo_icon.png' %}" alt="Logo" class="img-fluid">
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                    </div>
-                                    <form action="{% url 'login' %}" method="post">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="username" name="username"  aria-describedby="emailHelp"
-                                                placeholder="Enter user name..." required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-                                    </form>
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                {% else %}
+                    <!-- Login form for non-authenticated users -->
+                    <div class="row">
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <img src="{% static 'template/Logo_icon.png' %}" alt="Logo" class="img-fluid">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
+                                <form action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="username" name="username"  aria-describedby="emailHelp"
+                                            placeholder="Enter user name..." required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        {% endif %}
                     </div>
+                {% endif %}
                     <!-- Content Row End -->
                 </div>
                 <!-- /.container-fluid -->

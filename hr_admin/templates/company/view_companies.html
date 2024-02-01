@@ -35,7 +35,13 @@
                     <tbody>
                         {% for company in companies %}
                         <tr onclick="window.location='{% url 'Company_Profile' company.id %}';" style="cursor: pointer;">
-                            <td><img src="{{ company.logo.url }}" class="img-thumbnail" height="30" width="100"></td>
+                            <td>
+                                {% if company.logo %}
+                                <img src="{{ company.logo.url }}" class="img-thumbnail" height="30" width="100">
+                                {% else %}
+                                No Logo Available
+                                {% endif %}
+                            </td>
                             <td>{{ company.id }}</td>
                             <td>{{ company.name }}</td>	
                             <td>{{ company.consultant }}</td>	

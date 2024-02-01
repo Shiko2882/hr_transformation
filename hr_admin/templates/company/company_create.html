@@ -1,19 +1,23 @@
-
 {% extends 'base.html' %} 
 {% load crispy_forms_tags %} 
 {% load static %}
 {% block content %}
+{% for group in user.groups.all %}
+  {% if group.name == 'Administrator'%}
+
 <button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
 <div class="card card-body">
-    <h5> Company Profile </h5>
+    <h5> Create New Company </h5>
     
 </div>
 <br>
-<form method="post" enctype='multipart/form-data' action="{% url 'Update_Company' company.id %}" >
+<form method="post" action="{% url 'create_company'  %}">
   {% csrf_token %}
   {{ form|crispy }}
   <br>
   <br>    
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+  {% endif %}
+{% endfor %}
 {% endblock content %}

@@ -23,6 +23,7 @@ admin.site.register(EvaluationQuestion)
 admin.site.register(EvaluationAnswer)
 
 admin.site.register(ActionPlanForm)
+admin.site.register(UserProfile)
 #admin.site.register(Comment)
 #admin.site.register(CommentAnswer)
 #admin.site.register(CommentActionPlan)
