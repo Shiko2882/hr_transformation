@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h2>Fill Company Form</h2>
+
+<form method="post" action="{% url 'fill_company_form' pk %}">
+    {% csrf_token %}
+    
+{{ form | crispy}}
+
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

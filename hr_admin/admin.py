@@ -27,3 +27,9 @@ admin.site.register(UserProfile)
 #admin.site.register(Comment)
 #admin.site.register(CommentAnswer)
 #admin.site.register(CommentActionPlan)
+
+
+admin.site.register(CompanyForm)
+admin.site.register(CompanyFormAnswers)
+
+

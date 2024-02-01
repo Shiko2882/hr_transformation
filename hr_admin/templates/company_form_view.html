@@ -1,0 +1,28 @@
+<!-- company_form_view.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Company Form</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    
+    {% for question in questions %}
+      <h3>{{ question.category }}</h3>
+      <p>{{ question.question }}</p>
+      <label for="answer_{{ question.id }}">Answer:</label>
+      <select id="answer_{{ question.id }}" name="answer_{{ question.id }}">
+        <option value="NA" {% with answers_dict|default:'' as answers %}{% if question.id in answers %}selected{% endif %}{% endwith %}>NA</option>
+        <option value="Yes" {% with answers_dict|default:'' as answers %}{% if question.id in answers and answers.question.id == 'Yes' %}selected{% endif %}{% endwith %}>Yes</option>
+        <option value="No" {% with answers_dict|default:'' as answers %}{% if question.id in answers and answers.question.id == 'No' %}selected{% endif %}{% endwith %}>No</option>
+      </select>
+      <br>
+      <label for="notes_{{ question.id }}">Notes:</label>
+      <textarea id="notes_{{ question.id }}" name="notes_{{ question.id }}">{{ answers_dict|default:''|get:question.id|default:'' }}</textarea>
+      <hr>
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

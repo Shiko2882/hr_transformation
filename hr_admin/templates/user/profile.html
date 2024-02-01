@@ -10,26 +10,28 @@
           <div class="card-body">
             <h2 class="card-title">Your Profile</h2>
             <div class="d-flex align-items-center mb-3">
-              <img src="{{ form.avatar.url }}" alt="Avatar" class="avatar">
-              <h3 class="ms-3">{{ form.first_name.value }} {{ form.last_name.value }}</h3>
+              {% if user.userprofile.avatar %}
+              <img src="{{ user.userprofile.avatar.url }}" alt="Avatar" class="avatar rounded-circle img-fluid">
+              {% else %}
+              <i class="fas fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i>
+              {% endif %}
+              
             </div>
+            <h1 class="ms-3">{{ user.first_name}} {{ user.last_name }}</h1>
             <form method="post" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                {{ form.username }}
+                <input type="text" class="form-control" id="username" value="{{ user.username }}" readonly>
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                {{ form.email }}
+                <input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
               </div>
               <div class="mb-3">
-                <label for="first_name" class="form-label">First Name</label>
-                {{ form.first_name }}
-              </div>
-              <div class="mb-3">
-                <label for="last_name" class="form-label">Last Name</label>
-                {{ form.last_name }}
+                <label for="bio" class="form-label">Add Your Bio</label>
+                <div class="mb-3">
+                {{ form.bio }} </div>
               </div>
               <div class="mb-3">
                 <label for="avatar" class="form-label">Avatar</label>

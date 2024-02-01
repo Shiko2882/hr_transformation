@@ -21,11 +21,14 @@ urlpatterns = [
     path('fill_inputs_form/<int:pk>/', fill_inputs_form, name='fill_inputs_form'),
     path('fill_evaluation_form/<int:pk>/', fill_evaluation_form, name='fill_evaluation_form_with_pk'),
     
+    
     path('view_companies/', view_companies, name='view_companies'),
     path("createcompany/", createcompany, name="create_company"),
     path("updatecompany/<str:pk>", updatecompany, name="Update_Company"),
     path("companyprofile/<str:pk>", companyprofile, name="Company_Profile"),
     path('my-company-profile/', my_company_profile, name='my_company_profile'),
+    path('company-form/', company_form_view, name='company_form_view'),
+    
     
     path('view_consultants/', view_consultants, name='view_consultants'),
     path("createconsultant/", createconsultant, name="Create consultant"),
@@ -47,8 +50,7 @@ urlpatterns = [
     path('admin_password_change/<int:user_id>/', admin_password_change, name='admin_password_change'),
     path('profile/', profile, name='profile'),
     
-    path('start_survey/<int:company_id>/', start_survey, name='start_survey'),
-    path('survey_form/<int:company_id>/', survey_form, name='survey_form'),
+
    
 
 ] + static (settings.MEDIA_URL, document_root= settings.MEDIA_ROOT )

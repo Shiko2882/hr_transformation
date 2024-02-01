@@ -409,37 +409,27 @@ def admin_password_change(request, user_id):
     return render(request, 'user/admin_password_change.html', {'form': form})
 
 
+@login_required
+def company_form_view(request):
+    # Get all questions and answers for the current user
+    user_company = get_object_or_404(Company, user=request.user)
+    questions = CompanyForm.objects.all()
+    answers = CompanyFormAnswers.objects.filter(company=user_company )
 
-# testing new way to render questions to the model 
-def start_survey(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
-    
-    # Assuming you have a specific form for this survey
-    survey_form = InputsForm.objects.get(name="Your Survey Form Name")
-
-    # Fetch all questions related to the survey form
-    survey_questions = InputsQuestion.objects.filter(category__InputsForm=survey_form)
-
-    # Insert survey questions into the Response table for the company
-    for question in survey_questions:
-        InputsAnswer.objects.create(company=company, question=question, is_draft=True)
-
-    return redirect('survey_form', company_id=company.id)
-def survey_form(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
-    
-    # Fetch all answers related to the company and survey questions
-    company_answers = InputsAnswer.objects.filter(company=company, is_draft=True).order_by('question__category')
-    survey_form = company.companyinputs
-    categories = InputsCategory.objects.filter(InputsForm=survey_form)
     if request.method == 'POST':
-        # Handle form submission and update the Responses
-        for answer in company_answers:
-            answer.answer = request.POST.get(f"answer_{answer.id}")
-            answer.notes = request.POST.get(f"notes_{answer.id}")
-            answer.is_draft = False
-            answer.save()
+        # Handle form submission
+        for question in questions:
+            answer_text = request.POST.get(f'answer_{question.id}', 'NA')
+            notes_text = request.POST.get(f'notes_{question.id}', '')
+            
+            # Update or create CompanyFormAnswers
+            answer, created = CompanyFormAnswers.objects.update_or_create(
+                company=request.user,
+                question=question,
+                defaults={'answer': answer_text, 'notes': notes_text, 'is_draft': False}
+            )
 
-        return redirect('thank_you_page')  # Redirect to a thank-you page or any desired destination
+        messages.success(request, 'Form submitted successfully.')
+        return redirect('company_form_view')
 
-    return render(request, 'survey/survey_form.html', {'company': company, 'company_answers': company_answers, 'categories': categories})
+    return render(request, 'company_form_view.html', {'questions': questions, 'answers': answers })

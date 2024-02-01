@@ -49,14 +49,13 @@
                     <span>Dashboard</span></a>
             </li>
                 {% for group in request.user.groups.all %}
-                    {% if group.name == 'Administrator' %}
-                    {% elif group.name == 'Company' %}
+                    {% if group.name == 'Company' %}
             <li class="nav-item ">
                 <a class="nav-link" href="/my-company-profile">
                     <i class="fas fa-fw fa-building"></i>
                     <span>My Company Profile</span></a>
             </li>
-                    {% elif group.name == 'Administrator' or group.name == 'Consultant' %}
+                    {% elif group.name != 'Company' %}
     <!-- Nav Item - Dashboard -->
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -349,8 +348,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ request.user.username }} {{ request.user.userprofile.role }}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{% static 'template/img/undraw_profile.svg' %}">
+                                {% if user.userprofile.avatar %}
+                                    <img class="img-profile rounded-circle" src="{{ user.userprofile.avatar.url }}">
+                                {% else %}
+                                    <i class="fas fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i>
+                                {% endif %}
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

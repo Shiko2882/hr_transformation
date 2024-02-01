@@ -34,7 +34,7 @@ class Attachment(models.Model):
 # create company model with company profile data that related to company user one to one and can be assigned to more than one consultant user
 class Company(models.Model):
     name = models.CharField(max_length=120 , blank=True,  null=True)
-    user = models.ManyToManyField(User, blank=True , null=True)
+    user = models.ManyToManyField(User, blank=True)
     consultant = models.ForeignKey(User,on_delete=models.CASCADE ,related_name='consulting_companies', blank=True)
     description = models.TextField( blank=True, null=True)
     logo= models.ImageField(upload_to='logos',blank=True,null=True)
@@ -249,7 +249,44 @@ class ActionPlanForm(models.Model):
     #EvaluationAnswer = models.OneToOneField(EvaluationAnswer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    
+# need to create a company form questions, answers and results model
+class CompanyForm(models.Model):
+    CATEGORY_CHOICES = [
+        ('Strategy', 'Strategy'),
+        ('Recruiting', 'Recruiting'),
+        ('Retraining-Employee-Development', 'Retraining (Employee Development)'),
+        ('Retaining-Performance-Management', 'Retaining (Performance Management)'),
+        ('Retaining-Compensation-Benefits', 'Retaining (Compensation and Benefits)'),
+        ('Retaining-Internal-Communication', 'Retaining (Internal Communication, Other Benefits)'),
+        ('Turnover', 'Turnover'),
+    ]
+
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    question = models.CharField(max_length=100)
+    notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.question
+
+
+class CompanyFormAnswers(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)  # Assuming Company is associated with a User
+    question = models.ForeignKey(CompanyForm, on_delete=models.CASCADE)
+    ANSWER_CHOICES = [
+        ('NA', 'NA'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+    ]
+    answer = models.CharField(max_length=255, choices=ANSWER_CHOICES, default='NA', blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_draft = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.question.question} ---> {self.answer}'
+
+    class Meta:
+        unique_together = ['company', 'question']
 
 
 
