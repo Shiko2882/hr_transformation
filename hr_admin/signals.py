@@ -24,11 +24,3 @@ def save_user_profile(sender, instance, **kwargs):
     if not profile.avatar:
         profile.avatar = 'default.png'
         profile.save()
-
-@receiver(post_save, sender=User)
-def create_company_form_answers(sender, instance, created, **kwargs):
-    if created:
-        # Retrieve all questions from CompanyForm and create corresponding CompanyFormAnswers
-        questions = CompanyForm.objects.all()
-        for question in questions:
-            CompanyFormAnswers.objects.create(company=instance, question=question)

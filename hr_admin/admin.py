@@ -29,7 +29,4 @@ admin.site.register(UserProfile)
 #admin.site.register(CommentActionPlan)
 
 
-admin.site.register(CompanyForm)
-admin.site.register(CompanyFormAnswers)
-
 

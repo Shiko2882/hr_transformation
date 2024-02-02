@@ -1,11 +1,23 @@
-<div>
+<div class="container text-center">
     <h3>{{ company.name }} Attachments</h3>
-    <ul>
+    <div class="row justify-content-center">
         {% for attachment in attachments %}
-            <li>
-                <a href="{% url 'attachment_detail' attachment.id %}" class="fa fa-paperclip">-{{ attachment.file.name }} - {{ attachment.description }}</a>
-                 <br>
-            </li>
+            <div class="col-2 col-md-4 col-lg-3">
+                <div class="card mb-3">
+                    <a href="{% url 'attachment_detail' attachment.id %}" class="card-link">
+                        <div class="thumbnail-container">
+                            {% if attachment.file.name|lower|slice:'-4:' == '.png' or attachment.file.name|lower|slice:'-4:' == '.jpg' or attachment.file.name|lower|slice:'-5:' == '.jpeg' or attachment.file.name|lower|slice:'-4:' == '.gif' %}
+                                <img src="{{ attachment.file.url }}" alt="{{ attachment.file.name }}" class="card-img-top rounded-circle" style="width: 150px; height: 100px;">
+                            {% else %}
+                                <img src="/media/attachments/default.png" alt="Default Thumbnail" class="card-img-top rounded-circle" style="width: 150px; height: 100px;">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{{ attachment.file.name|slice:'-15:' }}</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>

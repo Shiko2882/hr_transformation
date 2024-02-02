@@ -9,31 +9,32 @@
 <br>
     <div class="row">   
         <div class="col-lg-6">
-                <div class="card-body">
-                    {% if companyid.logo %}
-                        <img src="{{ companyid.logo.url }}" class="rounded-xl mt-6 img-thumbnail" style="max-width: 200px; height: auto;">
-                    {% else %}
-                        <p>No logo available</p>
-                    {% endif %}
-                    <p><strong>ID: </strong>{{ companyid.id }} - {{ companyid.name }}</p>
-                    <a class="btn btn-sm btn-primary offset-md-1" title="Edit Company Profile"  href="{% url 'Update_Company' companyid.id %}"><span class="fa fa-info-circle text-blue-500"></span></a>
-                    <a class="btn btn-sm btn-primary offset-md-1" title="Client Input"  href="{% url 'fill_inputs_form' companyid.id %}"><span class="fa fa-plus-square text-blue-500"></span></a>
-                    <a class="btn btn-sm btn-primary offset-md-1" title="Evaluation" href="{% url 'fill_evaluation_form_with_pk' companyid.id %}"><span class="fa fa-star text-blue-500"></span></a>
-                    <a class="btn btn-sm btn-primary offset-md-1" title="Action Plan"  href=""><span class="fa fa-list-ol text-blue-500"></span></a>
-
-                </div>
+            <div class="card-body">
+                {% if companyid.logo %}
+                    <img src="{{ companyid.logo.url }}" class="rounded-xl mt-6 img-thumbnail" style="max-width: 200px; height: auto;">
+                {% else %}
+                    <p>No logo available</p>
+                {% endif %}
+                <p><strong><i class="fas fa-id-card"></i> ID: </strong>{{ companyid.id }} - {{ companyid.name }}</p>
+                <a class="btn btn-sm btn-primary offset-md-1" title="Edit Company Profile"  href="{% url 'Update_Company' companyid.id %}"><span class="fa fa-info-circle text-blue-500"></span></a>
+                <a class="btn btn-sm btn-primary offset-md-1" title="Client Input"  href="{% url 'fill_inputs_form' companyid.id %}"><span class="fa fa-plus-square text-blue-500"></span></a>
+                <a class="btn btn-sm btn-primary offset-md-1" title="Evaluation" href="{% url 'fill_evaluation_form_with_pk' companyid.id %}"><span class="fa fa-star text-blue-500"></span></a>
+                <a class="btn btn-sm btn-primary offset-md-1" title="Action Plan"  href=""><span class="fa fa-list-ol text-blue-500"></span></a>
+            </div>
         </div>
         <div class="col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">{{ companyid.id }} - {{ companyid.name }}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-id-card"></i> {{ companyid.id }} - {{ companyid.name }}</h6>
                 </div>
                 <div class="card-body">
-                    <p><strong>Name of CEO / MD: </strong>{{ companyid.name_of_ceo_md }}</p>
-                    <p><strong>Company Contacts Numbers: </strong>{{ companyid.company_contacts_numbers }}</p>
-                    <p><strong>Company Address: </strong>{{ companyid.company_address }}</p>
-                    <p><strong>Company Website: </strong>{{ companyid.company_website }}</p>
-                    <p><strong>Industry: </strong>{{ companyid.industry }}</p>
+                    <p><strong><i class="fas fa-building"></i> Company Name: </strong>{{ companyid.name }}</p>
+                    <p><strong><i class="fas fa-user-tie"></i> Chief Executive Officer: </strong>{{ companyid.ceo }}</p>
+                    <p><strong><i class="fas fa-user"></i> General Manager: </strong>{{ companyid.gm }}</p>
+                    <p><strong><i class="fas fa-phone"></i> Company Contacts Numbers: </strong>{{ companyid.company_contacts_numbers }}</p>
+                    <p><strong><i class="fas fa-map-marker-alt"></i> Company Address: </strong>{{ companyid.company_address }}</p>
+                    <p><strong><i class="fas fa-globe"></i> Company Website: </strong>{{ companyid.company_website }}</p>
+                    <p><strong><i class="fas fa-industry"></i> Industry: </strong>{{ companyid.industry }}</p>
                 </div>
             </div>
         </div>
@@ -50,133 +51,115 @@
                 <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3">Attachments</a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab1">
-                    <br>
-                    <div class="col-lg-12">
-                        <div class="card shadow mb-4">
+        </div>
+        <!--Tab 1 Company Profile -->
+        <div class="tab-content col-lg-12">
+            <div class="tab-pane fade show active" id="tab1">
+                <br>
+                <div class="col-lg-12">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-building"></i> Company Background</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <h6><strong>General Background: </strong><br>{{ companyid.description }}</h6><br>
+                                <h6><strong>Official social media pages</strong><br>{{ companyid.official_social_media_pages }}</h6>
+                                <p><strong><i class="fas fa-globe"></i> Website: </strong>{{ companyid.social_website }}</p>
+                                <p><strong><i class="fab fa-linkedin"></i> LinkedIn: </strong>{{ companyid.social_linkedin }}</p>
+                                <p><strong><i class="fab fa-facebook"></i> Facebook: </strong>{{ companyid.social_facebook }}</p>
+                                <p><strong><i class="fab fa-instagram"></i> Instagram: </strong>{{ companyid.social_instagram }}</p><br>
+                                <p><strong>Legal formation: </strong>{{ companyid.legal_formation }}</p>
+                                <p><strong>Ownership: </strong>{{ companyid.ownership }}</p><br>
+                                <p><strong>Products/Services: </strong>{{ companyid.products }}</p>
+                                <h6><strong>Marketing & Sales Channels </strong><br></h6>
+                                <p><strong>Sales Channels: </strong>{{ companyid.sales_channels }}</p>
+                                <p><strong>Marketing Channels: </strong>{{ companyid.marketing_channels }}</p>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-briefcase"></i> Business Direction / Strategy</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <p><strong>Vision: </strong>{{ companyid.vision }}</p>
+                                <p><strong>Mision: </strong>{{ companyid.mission }}</p>
+                                <p><strong>Strategy: </strong>{{ companyid.strategy }}</p>
+                                <p><strong>Specific Initiatives: </strong>{{ companyid.initiatives }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-exclamation-triangle"></i> Challanges</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <p><strong>Market: </strong>{{ companyid.market }}</p>
+                                <p><strong>Financial: </strong>{{ companyid.financial }}</p>
+                                <p><strong>Production: </strong>{{ companyid.production }}</p>
+                                <p><strong>Supply chain: </strong>{{ companyid.supply_chain }}</p>
+                                <p><strong>Organizational: </strong>{{ companyid.organizational }}</p>
+                                <p><strong>People: </strong>{{ companyid.people }}</p>
+                                <p><strong>Customer: </strong>{{ companyid.customer }}</p>
+                                <p><strong>Legal: </strong>{{ companyid.legal }}</p>
+                                <p><strong>Technological: </strong>{{ companyid.technological }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
                             <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
                                 role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Company Background</h6>
+                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-info-circle"></i> Basic Data</h6>
                             </a>
                             <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample">
-                                <div class="card-body">
-                                    <p><strong>Official social media pages : </strong>{{ companyid.official_social_media_pages }}</p>
-                                    <p><strong>Legal formation: </strong>{{ companyid.legal_formation }}</p>
-                                    <p><strong>Ownership: </strong>{{ companyid.ownership }}</p>
-                                    <p><strong>Products: </strong>{{ companyid.products }}</p>
-                                    <p><strong>Sales Channels: </strong>{{ companyid.sales_channels }}</p>
-                                    <p><strong>Professional Staff: </strong>{{ companyid.professional_staff }}</p>
-                                    <p><strong>Exports (%) of Revenue: </strong>{{ companyid.exports_of_revenue }}</p>
-                                    <p><strong>Management: </strong>{{ companyid.management }}</p>
-                                    <p><strong>Organization classification: </strong>{{ companyid.organization_classification }}</p>
-                                    <p><strong>Locations: </strong>{{ companyid.locations }}</p>
-                                </div>
-                                                </div>  
-                                            </div>
-                                        </div>
-            
-            
-                                    <!-- Data Card -->
-            
-                                        <div class="col-lg-12">
-                                            <div class="card shadow mb-4">
-                                                <!-- Card Header - Accordion -->
-                                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-industry"></i> Industry background</h6>
-                                                </a>
-                                                <!-- Card Content - Collapse -->
-                                                <div class="collapse show" id="collapseCardExample">
-                                                    <div class="card-body">
-                                                        <p><strong>Web search: </strong>{{ companyid.web_search }}</p>
-                                                        <p><strong>Trade & industry references: </strong>{{ companyid.trade_industry_references }}</p>
-                                                        <p><strong>Official governmental websites: </strong>{{ companyid.official_governmental_websites }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>    
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="card shadow mb-4">
-                                                <!-- Card Header - Accordion -->
-                                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-briefcase"></i> Business Direction / Strategy</h6>
-                                                </a>
-                                                <!-- Card Content - Collapse -->
-                                                <div class="collapse show" id="collapseCardExample">
-                                                    <div class="card-body">
-                                                        <p><strong>Recent strategy or planning document: </strong>{{ companyid.recent_strategy_or_planning_document }}</p>
-                                                        <p><strong>Direction / strategy brief : </strong>{{ companyid.direction_strategy }}</p>
-                                                        <p><strong>If possible, determine specific initiatives/projects to achieve strategy: </strong>{{ companyid.initiatives_projects }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-            
-        
-                                        <div class="col-lg-12">
-                                            <div class="card shadow mb-4">
-                                                <!-- Card Header - Accordion -->
-                                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-exclamation-triangle"></i> Challanges</h6>
-                                                </a>
-                                                <!-- Card Content - Collapse -->
-                                                <div class="collapse show" id="collapseCardExample">
-                                                    <div class="card-body">
-                                                        <p><strong>Market: </strong>{{ companyid.market }}</p>
-                                                        <p><strong>Financial : </strong>{{ companyid.financial }}</p>
-                                                        <p><strong>Production: </strong>{{ companyid.production }}</p>
-                                                        <p><strong>Supply chain: </strong>{{ companyid.supply_chain }}</p>
-                                                        <p><strong>Organizational/people : </strong>{{ companyid.organizational_people }}</p>
-                                                        <p><strong>Customer: </strong>{{ companyid.customer }}</p>
-                                                        <p><strong>Legal: </strong>{{ companyid.legal }}</p>
-                                                        <p><strong>Technological: </strong>{{ companyid.technological }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>        
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="card shadow mb-4">
-                                                <!-- Card Header - Accordion -->
-                                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-info-circle"></i> Basic Data</h6>
-                                                </a>
-                                                <!-- Card Content - Collapse -->
-                                                <div class="collapse show" id="collapseCardExample">
-                                                    <div class="card-body">
-                                                        <p><strong>Headcount: </strong>{{ companyid.headcount }}</p>
-                                                        <p><strong>Headcount Distribution: </strong>{{ companyid.headcount_distribution }}</p>
-                                                        <p><strong>Headcount Distribution Notes: </strong>{{ companyid.headcount_distribution_notes }}</p>
-                                                        <p><strong>Turnover (%) 2022 Aggregate: </strong>{{ companyid.turnover }}</p>
-                                                        <p><strong>Headcount classifications: </strong>{{ companyid.headcount_classifications }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <p><strong>Headcount: </strong>{{ companyid.headcount }}</p>
+                                <p><strong>Headcount Distribution: </strong>{{ companyid.headcount_distribution }}</p>
+                                <p><strong>Headcount Distribution Notes: </strong>{{ companyid.headcount_distribution_notes }}</p>
+                                <p><strong>Turnover (%) 2022 Aggregate: </strong>{{ companyid.turnover }}</p>
+                                <p><strong>Headcount classifications: </strong>{{ companyid.headcount_classifications }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="tab2">
-                    <br>
-                    <div class="col-lg-12">
+            </div>
 
-                        <!-- Dropdown Card Example -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-line"></i> Company KPIs</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                        aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Actions:</div>
+            <div class="tab-pane fade" id="tab2"><br>
+                <div class="col-lg-12">
+                    <!-- Dropdown Card Example -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-line"></i> Company KPIs</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Actions:</div>
                                         <a class="dropdown-item" href="{% url 'assign_competencies' companyid.id %}">Assign new KPI</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{% url 'company_detail' companyid.id %}">View All</a>
@@ -204,23 +187,19 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            {% else %}
+                                {% else %}
                                 <p>No KPIs assigned yet.</p>
                                 <a href="{% url 'assign_competencies' companyid.id %}"><span class="fa fa-plus-circle"></span> Add KPI</a>
                             {% endif %}
                             </div>
                         </div>
                     </div>
-
-                <!-- KPIs Tracker Card -->
-
+                    <!-- KPIs Tracker Card -->
                     <div class="col-lg-12">
-
-                        <!-- Dropdown Card Example -->
+                    <!-- Dropdown Card Example -->
                         <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-tasks"></i> KPIs Tracker</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -236,49 +215,43 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Card Body -->
+                        <!-- Card Body -->
                             <div class="card-body">
                                 {% include 'company_detail.html' %}
                             </div>
-                        </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="tab3">
-                    <br>
-                    <div class="col-lg-12">
-
-                        <!-- Dropdown Card Example -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-paperclip"></i> Company Attachments</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                        aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Actions:</div>
-                                        <a class="dropdown-item" href="{% url 'assign_competencies' companyid.id %}">Assign new KPI</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{% url 'assign_competencies' companyid.id %}">View All</a>
-                                    </div>
+            </div>
+            <!-- Tab 3 Attachments -->
+            <div class="tab-pane fade" id="tab3"><br>
+                <div class="col-lg-12">
+                    <!-- Dropdown Card Example -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-paperclip"></i> Company Attachments</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Actions:</div>
+                                    <a class="dropdown-item" href="{% url 'company_attachments' companyid.id %}">Upload new attachment</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'company_attachments' companyid.id %}">View All</a>
                                 </div>
                             </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <a class="inline-block float-right btn btn-sm btn-primary" aria-hidden="true" title="Upload new attachment" href="{% url 'company_attachments' companyid.id %}"><span class="fa fa-upload"></span></a>
-                                {% include 'company/attachment_widget.html' %}
-                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            {% include 'company/attachment_widget.html' %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
+
 {% endblock %}
-       
-                    

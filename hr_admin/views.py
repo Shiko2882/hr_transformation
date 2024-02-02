@@ -409,27 +409,3 @@ def admin_password_change(request, user_id):
     return render(request, 'user/admin_password_change.html', {'form': form})
 
 
-@login_required
-def company_form_view(request):
-    # Get all questions and answers for the current user
-    user_company = get_object_or_404(Company, user=request.user)
-    questions = CompanyForm.objects.all()
-    answers = CompanyFormAnswers.objects.filter(company=user_company )
-
-    if request.method == 'POST':
-        # Handle form submission
-        for question in questions:
-            answer_text = request.POST.get(f'answer_{question.id}', 'NA')
-            notes_text = request.POST.get(f'notes_{question.id}', '')
-            
-            # Update or create CompanyFormAnswers
-            answer, created = CompanyFormAnswers.objects.update_or_create(
-                company=request.user,
-                question=question,
-                defaults={'answer': answer_text, 'notes': notes_text, 'is_draft': False}
-            )
-
-        messages.success(request, 'Form submitted successfully.')
-        return redirect('company_form_view')
-
-    return render(request, 'company_form_view.html', {'questions': questions, 'answers': answers })

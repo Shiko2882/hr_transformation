@@ -33,48 +33,68 @@ class Attachment(models.Model):
 
 # create company model with company profile data that related to company user one to one and can be assigned to more than one consultant user
 class Company(models.Model):
-    name = models.CharField(max_length=120 , blank=True,  null=True)
+    
     user = models.ManyToManyField(User, blank=True)
+    lead = models.ForeignKey(User,on_delete=models.CASCADE ,related_name='leader', blank=True, null=True)
     consultant = models.ForeignKey(User,on_delete=models.CASCADE ,related_name='consulting_companies', blank=True)
-    description = models.TextField( blank=True, null=True)
+
     logo= models.ImageField(upload_to='logos',blank=True,null=True)
     attachments = models.ManyToManyField(Attachment, blank=True, related_name='company_attachments')
     competencies = models.ManyToManyField(Competency, blank=True, related_name='company_competencies')
     
-    name_of_ceo_md = models.CharField(max_length=100, blank=True, null=True)
-    company_contacts_numbers = models.TextField( blank=True, null=True)
-    company_address = models.TextField( blank=True, null=True)
-    company_website = models.URLField(blank=True, null=True)
-    industry = models.CharField(max_length=100, blank=True, null=True)
-    official_social_media_pages = models.TextField( blank=True, null=True)
-    legal_formation = models.TextField( blank=True, null=True)
-    ownership = models.TextField( blank=True, null=True)
-    products = models.TextField( blank=True, null=True)
-    sales_channels = models.TextField( blank=True, null=True)
-    professional_staff = models.CharField(max_length=100, blank=True, null=True)
-    exports_of_revenue = models.CharField(max_length=100, blank=True, null=True)
-    management = models.CharField(max_length=100, blank=True, null=True)
-    organization_classification = models.TextField( blank=True, null=True)
-    locations = models.TextField( blank=True, null=True)
-    web_search = models.CharField(max_length=100, blank=True, null=True)
-    trade_industry_references = models.CharField(max_length=100, blank=True, null=True)
-    official_governmental_websites = models.CharField(max_length=100, blank=True, null=True)
-    recent_strategy_or_planning_document = models.TextField( blank=True, null=True)
-    direction_strategy = models.TextField( blank=True, null=True)
-    initiatives_projects = models.TextField( blank=True, null=True)
-    market = models.CharField(max_length=100, blank=True, null=True)
+    #Company Information
+    name = models.CharField(max_length=120 , blank=True,  null=True, verbose_name="Company Name") #ok
+    ceo = models.CharField(max_length=100, blank=True, null=True, verbose_name="Chief Executive Officer")#ok
+    gm = models.CharField(max_length=100, blank=True, null=True, verbose_name="General Manager")#ok
+    company_contacts_numbers = models.TextField( blank=True, null=True, verbose_name="Company Contact Numbers")#ok
+    company_address = models.TextField( blank=True, null=True, verbose_name="Company Address")#ok
+    company_website = models.URLField(blank=True, null=True, verbose_name="Company Website")#ok
+    industry = models.CharField(max_length=100, blank=True, null=True, verbose_name="Company Industry")#ok
+
+    #Company Background
+        #General Background
+    description = models.TextField( blank=True, null=True, verbose_name="General Background")#ok
+    official_social_media_pages = models.TextField( blank=True, null=True, verbose_name="Official Social Media Pages")#ok
+    social_website = models.URLField(blank=True, null=True, verbose_name="Website")#ok
+    social_linkedin = models.URLField(blank=True, null=True, verbose_name="LinkedIn")#ok
+    social_facebook = models.URLField(blank=True, null=True, verbose_name="Facebook")#ok
+    social_instagram = models.URLField(blank=True, null=True, verbose_name="Instagram")#ok
+    #ok
+    
+    legal_formation = models.TextField( blank=True, null=True)#ok
+    ownership = models.TextField( blank=True, null=True)#ok
+    
+    #Products/Services
+    products = models.TextField(blank=True, null=True, verbose_name="Products/Services")  # ok
+    
+    #Marketing & Sales Channels
+    sales_channels = models.TextField( blank=True, null=True)#ok
+    marketing_channels = models.TextField( blank=True, null=True)#ok
+    
+    #Business Direction / Strategy
+    vision = models.TextField( blank=True, null=True)
+    mission = models.TextField( blank=True, null=True)
+    strategy = models.TextField( blank=True, null=True)
+    initiatives = models.TextField( blank=True, null=True)
+    
+    #Business Challenges
+    market = models.CharField(max_length=100, blank=True, null=True, verbose_name="Market")
     financial = models.CharField(max_length=100, blank=True, null=True)
     production = models.CharField(max_length=100, blank=True, null=True)
     supply_chain = models.CharField(max_length=100, blank=True, null=True)
-    organizational_people = models.CharField(max_length=100, blank=True, null=True)
+    organizational = models.CharField(max_length=100, blank=True, null=True)
+    people = models.CharField(max_length=100, blank=True, null=True)
     customer = models.CharField(max_length=100, blank=True, null=True)
     legal = models.CharField(max_length=100, blank=True, null=True)
     technological = models.CharField(max_length=100, blank=True, null=True)
+    #Basic Data
+    organization_classification = models.TextField( blank=True, null=True)
+    headcount_classifications = models.CharField(max_length=100, blank=True, null=True)
     headcount = models.IntegerField(blank=True, null=True)
     headcount_distribution = models.CharField(max_length=100, blank=True, null=True)
     headcount_distribution_notes = models.TextField( blank=True, null=True)
     turnover = models.CharField(max_length=100, blank=True, null=True)
-    headcount_classifications = models.CharField(max_length=100, blank=True, null=True)
+    
 
     # attachment
 
@@ -249,45 +269,8 @@ class ActionPlanForm(models.Model):
     #EvaluationAnswer = models.OneToOneField(EvaluationAnswer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
-# need to create a company form questions, answers and results model
-class CompanyForm(models.Model):
-    CATEGORY_CHOICES = [
-        ('Strategy', 'Strategy'),
-        ('Recruiting', 'Recruiting'),
-        ('Retraining-Employee-Development', 'Retraining (Employee Development)'),
-        ('Retaining-Performance-Management', 'Retaining (Performance Management)'),
-        ('Retaining-Compensation-Benefits', 'Retaining (Compensation and Benefits)'),
-        ('Retaining-Internal-Communication', 'Retaining (Internal Communication, Other Benefits)'),
-        ('Turnover', 'Turnover'),
-    ]
-
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
-    question = models.CharField(max_length=100)
-    notes = models.TextField(blank=True, null=True)
-
     def __str__(self):
-        return self.question
-
-
-class CompanyFormAnswers(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)  # Assuming Company is associated with a User
-    question = models.ForeignKey(CompanyForm, on_delete=models.CASCADE)
-    ANSWER_CHOICES = [
-        ('NA', 'NA'),
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
-    answer = models.CharField(max_length=255, choices=ANSWER_CHOICES, default='NA', blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_draft = models.BooleanField(default=True)
-
-    def __str__(self):
-        return f'{self.question.question} ---> {self.answer}'
-
-    class Meta:
-        unique_together = ['company', 'question']
-
+        return self.name 
 
 
 

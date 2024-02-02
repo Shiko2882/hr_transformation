@@ -27,7 +27,7 @@ urlpatterns = [
     path("updatecompany/<str:pk>", updatecompany, name="Update_Company"),
     path("companyprofile/<str:pk>", companyprofile, name="Company_Profile"),
     path('my-company-profile/', my_company_profile, name='my_company_profile'),
-    path('company-form/', company_form_view, name='company_form_view'),
+
     
     
     path('view_consultants/', view_consultants, name='view_consultants'),
