@@ -124,12 +124,8 @@ def fill_inputs_form(request, pk=None):
         company = Company.objects.get(id=pk, user=request.user)
     except Company.DoesNotExist:
         return HttpResponse('You are not assigned to this company.', status=403)
-    categories = InputsCategory.objects.filter(InputsForm__company=company)
+    categories = InputsQuestion.objects.all()
     questions = InputsQuestion.objects.all()
-    questions_by_category = {}
-
-    for category in categories:
-        questions_by_category[category] = InputsQuestion.objects.filter(category=category)
             
     existing_answers = InputsAnswer.objects.filter(company=company).select_related('question')
     initial_data = {}
@@ -167,7 +163,7 @@ def fill_inputs_form(request, pk=None):
     else:
         form = InputsAnswerForm(initial=initial_data)
 
-    return render(request, 'fill_inputs_form.html', {'form': form, 'questions': questions, 'company': company, 'pk': pk,  'questions_by_category': questions_by_category})
+    return render(request, 'fill_inputs_form.html', {'form': form, 'questions': questions, 'company': company, 'pk': pk,  'categories': categories, 'existing_answers': existing_answers})
 
 
 

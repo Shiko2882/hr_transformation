@@ -152,21 +152,22 @@ class InputsForm(models.Model):
         return self.name
     
 class InputsCategory(models.Model):
-    InputsForm = models.ForeignKey(InputsForm, on_delete=models.CASCADE)
+    #InputsForm = models.ForeignKey(InputsForm, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.InputsForm.name + '  --->  ' + self.name   
+        return self.name   
 
 # form Should have a model to create a question that have many options to answer like yes or no , multiple choice or single choice and also a notes field for each question
 
 class InputsQuestion(models.Model):
+    form = models.ForeignKey(InputsForm, on_delete=models.CASCADE)
     category = models.ForeignKey(InputsCategory, on_delete=models.CASCADE)   
     name = models.CharField(max_length=100)
     options = models.CharField(max_length=100, choices=[('yes_no', 'Yes or No'), ('multiple_choice', 'Multiple Choice'), ('single_choice', 'Single Choice')], blank=True, null=True)
     notes = models.TextField( blank=True, null=True)
     def __str__(self):
-        return self.name 
+        return self.form.name + '  --->  ' + self.name   
 
 # form and quiestions should be answered by company users one time only, and can be viewed abd edit by admin, company user,assigned consultant user
 class InputsAnswer(models.Model):
