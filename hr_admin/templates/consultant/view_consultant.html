@@ -10,45 +10,49 @@
         <i class="fas fa-chart-bar"></i> Consultants
     </h2>
 
-<br>
-<br>
-<div class="container">
-    <div class="row">
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>ID</th>
-                <th>Consultant Name</th>
-                <th>User</th>
-                <th>Phone</th>
-                <th>Assigned Projects</th>
-                <th>Status</th>
-                
-            </tr>
-            {% for consultant in consultants %}
-            <tr onclick="window.location='{% url 'Consultant Profile' consultant.user_id %}';" style="cursor: pointer;">
-                <th>
-                    {% if consultant.logo %}
-                        <img src="{{ consultant.logo.url }}" class="rounded-t-xl" height=50 width=50>
-                    {% else %}
-                        <img src="{% static 'images/default-cons.png' %}" class="rounded-t-xl" height=50 width=50>
-                    {% endif %} 
-                </th>
-                <th>{{ consultant.id }}</th>
-                <th>{{ consultant.name }}</th>	
-                <th>{{ consultant.user }}</th>	
-                <th>{{ consultant.phone }}</th>	
-                <th>{{ consultant.employees }}</th>
-                <th>{{ consultant.status }}</th>
-                <th>
-                    <a href="{% url 'Update_consultant' consultant.user_id %}">
-                        <button class="btn btn-sm btn-primary">Edit</button>
-                    </a>
-                </th>
-            </tr>
-            {% endfor %}
-        </table>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Consultant Name</th>
+                        <th>User</th>
+                        <th>Phone</th>
+                        <th>Assigned Projects</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for consultant in consultants %}
+                    <tr onclick="window.location='{% url 'Consultant Profile' consultant.user_id %}';" style="cursor: pointer;">
+                        <td>
+                            {% if consultant.user.userprofile.avatar.url %}
+                                <img src="{{ consultant.user.userprofile.avatar.url }}" class="img-thumbnail rounded-t-xl" height=50 width=50>
+                            {% else %}
+                                <img src="{% static 'images/default-cons.png' %}" class="img-thumbnail rounded-t-xl" height=50 width=50>
+                            {% endif %} 
+                        </td>
+                        <td>{{ consultant.user.id }}</td>
+                        <td>{{ consultant.name }}</td>	
+                        <td>{{ consultant.user }}</td>	
+                        <td>{{ consultant.user.userprofile.phone }}</td>	
+                        <td>{{ company.consultant }}</td>
+                        <td>{{ consultant.status }}</td>
+                        <td>
+                            <a href="{% url 'Update_consultant' consultant.user_id %}">
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 {% endblock %}

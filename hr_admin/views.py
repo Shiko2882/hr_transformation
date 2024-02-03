@@ -54,7 +54,10 @@ def CustomLogoutView(request):
 @login_required
 def profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
-
+    user_instance = User.objects.get(pk=profile.user.id)
+    consulting_companies = user_instance.consulting_companies.all()
+    access_companies = user_instance.company_set.all()
+    
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
@@ -63,7 +66,7 @@ def profile(request):
     else:
         form = UserProfileForm(instance=profile)
 
-    return render(request, 'user/profile.html', {'form': form})
+    return render(request, 'user/profile.html', {'form': form , 'consulting_companies': consulting_companies , 'access_companies': access_companies})
 
 
 def dashboard(request):
@@ -286,7 +289,7 @@ def my_company_profile(request):
 def view_consultants(request):
     consultants = Consultant.objects.all()
     form = ConsultantViewForm()
-    return render(request, 'consultant/view_consultant.html', {'consultants': consultants , 'form': form})
+    return render(request, 'consultant/view_consultant.html', {'consultants': consultants , 'form': form })
 
 def createconsultant(request):
     form =ConsultantViewForm()
@@ -316,8 +319,10 @@ def updateconsultant(request, pk):
 
 def consultantprofile(request,pk):
     consultantid= Consultant.objects.get(user=pk)
-    
-    context = {"consultantid":consultantid }
+    user_instance = User.objects.get(pk=consultantid.user.id)
+    consulting_companies = user_instance.consulting_companies.all()
+    access_companies = user_instance.company_set.all()
+    context = {"consultantid":consultantid , "consulting_companies":consulting_companies , "access_companies":access_companies}
     return render(request, "consultant/consultantprofile.html",context)
 
 # Competencies Feature

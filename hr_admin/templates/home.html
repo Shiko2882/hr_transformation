@@ -104,12 +104,12 @@
                         <a href="{% url 'Company_Profile' company.id %}">
                             <div class="card h-100">
                                 {% if company.logo %}
-                                    <img src="{{ company.logo.url }}" class="img-thumbnail" alt="{{ company.name }}">
+                                    <img src="{{ company.logo.url }}" class="img-thumbnail rounded-t-xl"  alt="{{ company.name }}">
                                 {% else %}
-                                    <img src="/media/logos/default.png" class="img-thumbnail" alt="Default Logo">
+                                    <img src='/media/logos/default.png' class="img-thumbnail rounded-t-xl"  alt='Default Logo'>
                                 {% endif %}
                                 <div class="card-body">
-                                    <p class="text-xs">{{ company.name }}</p>
+                                    <p class="text-xs  font-weight-bold">{{ company.name }}</p>
                                 </div>
                             </div>
                         </a>
@@ -133,13 +133,13 @@
                             <a href="{% url 'Consultant Profile' consultant.user_id %}">
                                 <div class="card h-100">
                                     {% if consultant.user.userprofile.avatar %}
-                                        <img src="{{ consultant.user.userprofile.avatar.url }}" class="img-thumbnail" alt="{{ company.name }}">
+                                        <img src="{{ consultant.user.userprofile.avatar.url }}" class="img-thumbnail rounded-t-xl"  alt="{{ company.name }}">
                                     {% else %}
-                                        <img src="/media/avatars/default.png" class="img-thumbnail" alt="Default Avatar">
+                                        <img src="/media/avatars/default.png" class="img-thumbnail rounded-t-xl"  alt="Default Avatar">
                                     {% endif %}
                                     <div class="card-body">  
-                                        <p class="text-xs">{{ consultant.name }} </p>
-                                        <p class="text-xs">Join: {{ consultant.user.date_joined|date:"F Y" }}</p>
+                                        <p class="text-xs font-weight-bold">{{ consultant.name }} </p>
+                                        <p class="text-xs">Join:<br> {{ consultant.user.date_joined|date:"F Y" }}</p>
                                     </div>
                                 </div>
                             </a>

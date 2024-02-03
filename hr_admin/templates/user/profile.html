@@ -29,6 +29,14 @@
                 <input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
               </div>
               <div class="mb-3">
+                <label for="email" class="form-label">Phone</label>
+                <input type="email" class="form-control" id="email" value="{{ form.phone }}" >
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">LinkedIn</label>
+                <input type="email" class="form-control" id="email" value="{{ form.LinkedIn }}">
+              </div>
+              <div class="mb-3">
                 <label for="bio" class="form-label">Add Your Bio</label>
                 <div class="mb-3">
                 {{ form.bio }} </div>
@@ -40,6 +48,32 @@
               <button type="submit" class="btn btn-primary">Update Profile</button>
             </form>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <h2><i class="fas fa-building"></i> Consulting Companies:</h2>
+                        <ul>
+                            {% for company in consulting_companies %}
+                                <li>{{ company.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <h2><i class="fas fa-users"></i> Access Companies:</h2>
+                        <ul>
+                            {% for company in access_companies %}
+                                <li>{{ company.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>

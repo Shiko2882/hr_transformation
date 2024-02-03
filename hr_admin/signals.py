@@ -22,5 +22,5 @@ def save_user_profile(sender, instance, **kwargs):
         profile = UserProfile.objects.create(user=instance)
 
     if not profile.avatar:
-        profile.avatar = 'default.png'
+        profile.avatar = 'avatars/default.png'
         profile.save()

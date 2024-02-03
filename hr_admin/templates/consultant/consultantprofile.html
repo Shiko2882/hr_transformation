@@ -1,41 +1,59 @@
-
 {% extends 'base.html' %} 
 
 {% block title %}{{ consultantid.name }}{% endblock %}
 
 {% block content %}
 <button class="btn btn-sm btn-primary" onclick="window.history.back()">Back</button>
-    <div class="grid grid-cols-6 gap-6">
-        <div class="col-span-2 p-4 rounded-xl mt-6 offset-md-3">
-            <img src="{{ consultantid.logo.url }}" class="rounded-xl mt-6 ">
-            <h1 class="mb-6 text-l mt-6 offset-md-3">{{ consultantid.name }}</h1>
-            <p class="text-gray-500 offset-md-3"><strong>ID: </strong>{{ consultantid.user_id }}</p>
-        </div>
-
-        <div class="col-span-4 p-4 bg-gray-100 rounded-xl mt-6">
-            <h1 class="mb-6 text-3xl">{{ consultantid.name }}</h1>
-            <p class="text-gray-500"><strong>ID: </strong>{{ consultantid.user_id }}</p>
-            <p class="text-gray-500"><strong>Name: </strong>{{ consultantid.name }}</p>
-            <p class="text-gray-500"><strong>Phone: </strong>{{ consultantid.phone }}</p>
-            <p class="text-gray-500"><strong>Email: </strong>{{ consultantid.email }}</p>
-            <p class="text-gray-500"><strong>Linkedin: </strong>{{ consultantid.linkedin }}</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mb-4">
+                <img src="{{ consultantid.user.userprofile.avatar.url }}" alt="Avatar" class="avatar rounded-circle img-fluid">
+                <div class="card-body">
+                    <h1 class="card-title">{{ consultantid.name }}</h1>
+                    <p class="card-text"><strong>ID: </strong>{{ consultantid.user_id }}</p>
+                    <p class="card-text"><strong>Bio: </strong><br>{{ consultantid.user.userprofile.bio }}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <br>
-    <div class="grid grid-cols-6 gap-10">
-        <div class="col-span-3 p-10 bg-gray-100 rounded-xl mt-6">
-            <h1 class="mb-6 text-3xl">Running Projects</h1>
-            <p class="text-gray-500"><strong>ID: </strong>{{ companyid.id }}</p>
-            <p class="text-gray-500"><strong>User: </strong>{{ companyid.user }}</p>
-            <p class="text-gray-500"><strong>Project Start: </strong>{{ companyid.project_start }}</p>
-        </div>
-
-        <div class="col-span-3 p-10 bg-gray-100 rounded-xl mt-6">
-            <h1 class="mb-6 text-3xl">Action Plans</h1>
-            <p class="text-gray-500"><strong>ID: </strong>{{ companyid.id }}</p>
-            <p class="text-gray-500"><strong>User: </strong>{{ companyid.user }}</p>
-            <p class="text-gray-500"><strong>Project Start: </strong>{{ companyid.project_start }}</p>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <p class="card-text"><strong>Name: </strong>{{ consultantid.name }}</p>
+                    <p class="card-text"><strong>Phone: </strong>{{ consultantid.user.userprofile.phone }}</p>
+                    <p class="card-text"><strong>Email: </strong>{{ consultantid.user.email }}</p>
+                    <p class="card-text"><strong>Linkedin: </strong>{{ consultantid.user.userprofile.linkedin }}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <br><br>
- {% endblock %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <h2><i class="fas fa-building"></i> Consulting Companies:</h2>
+                    <ul>
+                        {% for company in consulting_companies %}
+                            <li>{{ company.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <h2><i class="fas fa-users"></i> Access Companies:</h2>
+                    <ul>
+                        {% for company in access_companies %}
+                            <li>{{ company.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

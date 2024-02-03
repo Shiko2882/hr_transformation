@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    LinkedIn = models.URLField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
 
     def __str__(self):
@@ -132,10 +134,6 @@ class CompetencyRecord(models.Model):
 class Consultant(models.Model):
     name = models.CharField(max_length=100)
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    email = models.EmailField()
-    photo = models.ImageField(upload_to='profile',blank=True,null=True)
-    phone = models.CharField(max_length=100)
-    linkedin = models.URLField( blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name

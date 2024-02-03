@@ -25,7 +25,7 @@ class CompanyViewFormUpdate(forms.ModelForm):
     class Meta:
         model = Company
         fields = '__all__' 
-        exclude = ['user', 'consultant', 'attachments','competencies','actionplanform','evaluationform','companyinputs','created_at']
+        exclude = ['user', 'consultant','lead', 'attachments','competencies','actionplanform','evaluationform','companyinputs','created_at']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
