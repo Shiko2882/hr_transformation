@@ -22,6 +22,15 @@ def get_answer(answers, question):
 def get_item(dictionary, key):
     return dictionary.get(key, None)
 
+def group_by_category(queryset):
+    result = {}
+    for item in queryset:
+        category = item.question.category
+        if category not in result:
+            result[category] = []
+        result[category].append(item)
+    return result
+
 
 
 @register.filter

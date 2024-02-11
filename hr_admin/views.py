@@ -110,16 +110,7 @@ def attachment_detail(request, attachment_id):
 # views.py
 
 def fill_inputs_form(request, pk=None):
-    """
-    Renders a form for filling inputs and saves the answers to the database.
 
-    Args:
-        request (HttpRequest): The HTTP request object.
-        pk (int, optional): The primary key of the company. Defaults to None.
-
-    Returns:
-        HttpResponse: The HTTP response object.
-    """
     try:
         company = Company.objects.get(id=pk, user=request.user)
     except Company.DoesNotExist:
@@ -163,7 +154,7 @@ def fill_inputs_form(request, pk=None):
     else:
         form = InputsAnswerForm(initial=initial_data)
 
-    return render(request, 'fill_inputs_form.html', {'form': form, 'questions': questions, 'company': company, 'pk': pk,  'categories': categories, 'existing_answers': existing_answers})
+    return render(request, 'survey/survey_form.html', {'form': form, 'questions': questions, 'company': company, 'pk': pk,  'categories': categories, 'existing_answers': existing_answers})
 
 
 

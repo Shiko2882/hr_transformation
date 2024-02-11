@@ -22,10 +22,12 @@
                 {% csrf_token %}
                 {% include 'messages.html' %}
                 <table class="form-table" role="presentation">
-                    
                     {{ form.as_table }}
                     <br>
                   </table>
+                  <!-- <table class="form-table" role="presentation">
+                    {{form.as_table}}
+                </table> -->
                 <br>
                 <br>
                 <button type="save_draft" class="btn btn-secondary">Save as Draft</button>

@@ -164,7 +164,7 @@ class InputsQuestion(models.Model):
     form = models.ForeignKey(InputsForm, on_delete=models.CASCADE)
     category = models.ForeignKey(InputsCategory, on_delete=models.CASCADE)   
     name = models.CharField(max_length=100)
-    options = models.CharField(max_length=100, choices=[('yes_no', 'Yes or No'), ('multiple_choice', 'Multiple Choice'), ('single_choice', 'Single Choice')], blank=True, null=True)
+    #options = models.CharField(max_length=100, choices=[('yes_no', 'Yes or No'), ('multiple_choice', 'Multiple Choice'), ('single_choice', 'Single Choice')], blank=True, null=True)
     notes = models.TextField( blank=True, null=True)
     def __str__(self):
         return self.form.name + '  --->  ' + self.name   

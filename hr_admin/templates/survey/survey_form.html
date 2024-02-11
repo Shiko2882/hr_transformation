@@ -10,9 +10,11 @@
 <!-- survey/templates/survey/survey_form.html -->
 <form method="post">
     {% csrf_token %}
-    {% for category, answers in company_answers|groupby:"question.category" %}
-        <h4>{{ category }}</h4> <!-- Display the category name -->
-        {% for answer in answers %}
+    <table class="form-table" role="presentation">
+        {{ form.as_table }}
+        <br>
+      </table>
+        <!-- {% for answer in answers %}
             <h4>{{ answer.question.name }}</h4>
             <label for="answer_{{ answer.id }}">Answer:</label>
             <select name="answer_{{ answer.id }}">
@@ -22,8 +24,7 @@
             </select><br>
             <label for="notes_{{ answer.id }}">Notes:</label>
             <textarea name="notes_{{ answer.id }}">{{ answer.notes }}</textarea><br>
-        {% endfor %}
-    {% endfor %}
+        {% endfor %} -->
     <input type="submit" value="Submit">
 </form>
 
